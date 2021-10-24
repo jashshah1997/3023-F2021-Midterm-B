@@ -360,6 +360,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3430989149039464573}
     m_Modifications:
+    - target: {fileID: 2315522996691307291, guid: e1b206f29b3329d40bcbce1adffc039e, type: 3}
+      propertyPath: itemInSlot
+      value: 
+      objectReference: {fileID: 11400000, guid: d1cfec75f4f86954b92a563fe5933e5b, type: 2}
     - target: {fileID: 6197380717792489654, guid: e1b206f29b3329d40bcbce1adffc039e, type: 3}
       propertyPath: m_SizeDelta.y
       value: 288
@@ -781,6 +785,14 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3272399871756723926, guid: 0b667c596ffa1b94ea20e868bf1c0298, type: 3}
+      propertyPath: GridDimensions.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3272399871756723926, guid: 0b667c596ffa1b94ea20e868bf1c0298, type: 3}
+      propertyPath: GridDimensions.y
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3749347835609666688, guid: 0b667c596ffa1b94ea20e868bf1c0298, type: 3}
       propertyPath: m_Name
       value: InventoryCanvas
@@ -868,6 +880,10 @@ PrefabInstance:
     - target: {fileID: 3749347835609666689, guid: 0b667c596ffa1b94ea20e868bf1c0298, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4169463515279471580, guid: 0b667c596ffa1b94ea20e868bf1c0298, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6645390094794248642, guid: 0b667c596ffa1b94ea20e868bf1c0298, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1145,6 +1161,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3430989149039464573}
     m_Modifications:
+    - target: {fileID: 1034243699372419830, guid: c27e902803e0ced4abd58b5e225971ba, type: 3}
+      propertyPath: itemCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1034243699372419830, guid: c27e902803e0ced4abd58b5e225971ba, type: 3}
+      propertyPath: itemInSlot
+      value: 
+      objectReference: {fileID: 11400000, guid: 134b977f822d05e4ea7e2e7dae0d5d8d, type: 2}
     - target: {fileID: 4649683813024461512, guid: c27e902803e0ced4abd58b5e225971ba, type: 3}
       propertyPath: m_Name
       value: ItemInstance1x2 Variant
@@ -1202,6 +1226,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3430989149039464573}
     m_Modifications:
+    - target: {fileID: 1459020570521090153, guid: a27e5c69a4b33c3468739da79e95b83d, type: 3}
+      propertyPath: itemCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1459020570521090153, guid: a27e5c69a4b33c3468739da79e95b83d, type: 3}
+      propertyPath: itemInSlot
+      value: 
+      objectReference: {fileID: 11400000, guid: 4df7b78f65c95624bb587c2e9a3228e8, type: 2}
     - target: {fileID: 6549318639304450135, guid: a27e5c69a4b33c3468739da79e95b83d, type: 3}
       propertyPath: m_Name
       value: ItemInstance2x2 Variant

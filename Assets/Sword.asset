@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Sword
   description: Great for slicing watermelons and pumpkins
+  width: 1
+  height: 2
   icon: {fileID: 8097262859823219351, guid: 0657a0b2892d4cf49b09e2fec63a8531, type: 3}
   isConsumable: 1
