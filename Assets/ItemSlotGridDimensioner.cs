@@ -16,17 +16,19 @@ public class ItemSlotGridDimensioner : MonoBehaviour
 
     [SerializeField]
     Vector2Int GridDimensions = new Vector2Int(6, 6);
+    float width;
+    float height;
 
     public GridSlot[,] slotArray;
     public bool isContainer = false;
-
+    
     private LinkedList<GameObject> items;
 
     void Start()
     {
         GridLayoutGroup lg = GetComponent<GridLayoutGroup>();
-        float width = lg.cellSize.x;
-        float height = lg.cellSize.y;
+        width = lg.cellSize.x;
+        height = lg.cellSize.y;
 
         slotArray = new GridSlot[GridDimensions.x, GridDimensions.y];
 
@@ -46,25 +48,28 @@ public class ItemSlotGridDimensioner : MonoBehaviour
             return;
         }
 
-        Vector3 gridOffset = new Vector3(20, -20, 0);
-        Object prefab = AssetDatabase.LoadAssetAtPath("Assets/ItemInstance.prefab", typeof(GameObject));
-        GameObject obj = Instantiate(prefab, this.transform) as GameObject;
-        obj.transform.localPosition = new Vector3(slotArray[0, 0].x, -slotArray[0, 0].y, 0) + gridOffset;
-
-        Object prefab1 = AssetDatabase.LoadAssetAtPath("Assets/1x2 Variant.prefab", typeof(GameObject));
-        GameObject obj1 = Instantiate(prefab1, this.transform) as GameObject;
-        obj1.transform.localPosition = new Vector3(slotArray[0, 1].x, - slotArray[0, 1].y, 0) + gridOffset;
-
-        Object prefab2 = AssetDatabase.LoadAssetAtPath("Assets/1x3 Variant.prefab", typeof(GameObject));
-        GameObject obj2 = Instantiate(prefab2, this.transform) as GameObject;
-        obj2.transform.localPosition = new Vector3(slotArray[1, 1].x, - slotArray[1, 1].y, 0) + gridOffset;
-
-        Object prefab3 = AssetDatabase.LoadAssetAtPath("Assets/2x2 Variant.prefab", typeof(GameObject));
-        GameObject obj3 = Instantiate(prefab3, this.transform) as GameObject;
-        obj3.transform.localPosition = new Vector3(slotArray[3, 0].x, - slotArray[3, 0].y, 0) + gridOffset;
-
-        // Add all items to the item list
         items = new LinkedList<GameObject>();
+        AddPrefab("Assets/ItemInstance.prefab", 0, 0);
+        AddPrefab("Assets/1x2 Variant.prefab", 0, 1);
+        AddPrefab("Assets/1x3 Variant.prefab", 1, 1);
+        AddPrefab("Assets/2x2 Variant.prefab", 3, 0);
+    }
+
+    private void AddPrefab(string name, int x, int y)
+    {
+        // Instantiate object
+        Vector3 gridOffset = new Vector3(20, -20, 0);
+        Object prefab = AssetDatabase.LoadAssetAtPath(name, typeof(GameObject));
+        GameObject obj = Instantiate(prefab, this.transform) as GameObject;
+
+        // Calculate object offset due to size
+        float obj_height = obj.GetComponent<ItemSlot>().itemInSlot.height / 2f - 0.5f;
+        float obj_width = obj.GetComponent<ItemSlot>().itemInSlot.width / 2f - 0.5f;
+        Vector3 obj_offset = new Vector3(obj_width * width, - obj_height * height, 0);
+
+        // Transform object to the correct spot
+        obj.transform.localPosition = new Vector3(slotArray[x, y].x, -slotArray[x, y].y, 0) + gridOffset + obj_offset;
+        
         items.AddLast(obj);
     }
 
