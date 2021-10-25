@@ -89,7 +89,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2751491378659821153, guid: 73881833c406e5642ac97d666661f18b, type: 3}
       propertyPath: m_Name
-      value: ItemInstance1x2 Variant
+      value: 1x2 Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 7562638013690420831, guid: 73881833c406e5642ac97d666661f18b, type: 3}
+      propertyPath: itemInSlot
+      value: 
+      objectReference: {fileID: 11400000, guid: 134b977f822d05e4ea7e2e7dae0d5d8d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73881833c406e5642ac97d666661f18b, type: 3}
