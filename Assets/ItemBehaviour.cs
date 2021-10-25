@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ItemDragBehaviour : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class ItemBehaviour : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     private Vector2 lastMousePosition;
+    private ItemSlot itemSlot;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -31,6 +32,10 @@ public class ItemDragBehaviour : MonoBehaviour, IDragHandler, IBeginDragHandler,
     // Start is called before the first frame update
     void Start()
     {
+        itemSlot = GetComponent<ItemSlot>();
+        int w = itemSlot.itemInSlot.width;
+        int h = itemSlot.itemInSlot.height;
+
     }
 
     // Update is called once per frame
@@ -38,6 +43,4 @@ public class ItemDragBehaviour : MonoBehaviour, IDragHandler, IBeginDragHandler,
     {
         
     }
-
-
 }
