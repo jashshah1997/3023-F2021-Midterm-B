@@ -25,4 +25,9 @@ public class ItemTable : ScriptableObject
             }
         }
     }
+
+    public int Size()
+    {
+        return table.Count;
+    }
 }

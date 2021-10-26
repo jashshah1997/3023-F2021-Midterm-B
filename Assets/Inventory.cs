@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class Inventory : MonoBehaviour
 {
@@ -15,28 +16,43 @@ public class Inventory : MonoBehaviour
         itemTable.AssignItemIDs();
     }
 
-    public void OpenContainer()
+    public void OpenContainer(ContainerHandler containerHandler)
     {
         containerCanvas.SetActive(true);
+        InventoryBehaviour inv = containerCanvas.GetComponentInChildren<InventoryBehaviour>();
+        foreach(Item item in containerHandler.containerItems)
+        {
+            inv.AddPrefab("Assets/" + item.PrefabName + ".prefab");
+        }
     }
 
-    public void CloseContainer()
+    public void CloseContainer(ContainerHandler containerHandler)
     {
         containerCanvas.SetActive(false);
+        containerHandler.containerItems.Clear();
+        InventoryBehaviour inv = containerCanvas.GetComponentInChildren<InventoryBehaviour>();
+        foreach(GameObject item in inv.items)
+        {
+            Item inventoryItem = item.GetComponent<ItemSlot>().itemInSlot;
+            containerHandler.containerItems.Add(inventoryItem);
+        }
+        inv.RemoveAllItems();
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-       // if (collision.gameObject.tag == "Container")
+        // if (collision.gameObject.tag == "Container")
+        Debug.Log(collision.name);
         {
-            OpenContainer();
+            OpenContainer(collision.GetComponentInParent<ContainerHandler>());
         }
     }
     void OnTriggerExit2D(Collider2D collision)
     {
-      //  if (collision.gameObject.tag == "Container")
+        Debug.Log(collision.name);
+        //  if (collision.gameObject.tag == "Container")
         {
-            CloseContainer();
+            CloseContainer(collision.GetComponentInParent<ContainerHandler>());
         }
     }
 }

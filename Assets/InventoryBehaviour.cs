@@ -59,13 +59,17 @@ public class InventoryBehaviour : MonoBehaviour
         }
 
         items = new LinkedList<GameObject>();
-        AddPrefab("Assets/ItemInstance.prefab");
-        AddPrefab("Assets/1x2 Variant.prefab");
-        AddPrefab("Assets/1x3 Variant.prefab");
-        AddPrefab("Assets/2x2 Variant.prefab");
+
+        if (!isContainer)
+        {
+            AddPrefab("Assets/ItemInstance.prefab");
+            AddPrefab("Assets/1x2 Variant.prefab");
+            AddPrefab("Assets/1x3 Variant.prefab");
+            AddPrefab("Assets/2x2 Variant.prefab");
+        }
     }
 
-    private void AddPrefab(string name)
+    public void AddPrefab(string name)
     {
         // Instantiate object
         Object prefab = AssetDatabase.LoadAssetAtPath(name, typeof(GameObject));
@@ -73,8 +77,9 @@ public class InventoryBehaviour : MonoBehaviour
         InsertItemInGrid(obj);
     }
 
-    private void InsertItemInGrid(GameObject obj)
+    public void InsertItemInGrid(GameObject obj)
     {
+        obj.transform.SetParent(this.transform);
         int item_width = obj.GetComponent<ItemSlot>().itemInSlot.width;
         int item_height = obj.GetComponent<ItemSlot>().itemInSlot.height;
 
@@ -89,6 +94,16 @@ public class InventoryBehaviour : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void RemoveAllItems()
+    {
+        foreach(GameObject obj in items)
+        {
+            Destroy(obj);
+        }
+        items.Clear();
+        SetOccupied(0, 0, GridDimensions.x, GridDimensions.y, false);
     }
 
     private void InsertItemInGrid(GameObject obj, int x, int y)
@@ -107,10 +122,10 @@ public class InventoryBehaviour : MonoBehaviour
 
         if (!items.Contains(obj))
         {
-            Debug.Log(name + " added to list!");
+            Debug.Log(obj.name + " added to list!");
             items.AddLast(obj);
         }
-        Debug.Log(name + " inserted to grid");
+        Debug.Log(obj.name + " inserted to grid");
     }
 
     public void ChildMoving(GameObject obj)

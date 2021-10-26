@@ -17,6 +17,7 @@ public class Item : ScriptableObject
     public string description = "this is an item";
     public int width;
     public int height;
+    public string PrefabName;
 
     private int id = -1;
     public int Id

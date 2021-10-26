@@ -16,5 +16,6 @@ MonoBehaviour:
   description: No clue what's inside
   width: 1
   height: 1
+  PrefabName: ItemInstance
   icon: {fileID: -1686543816739758948, guid: 0657a0b2892d4cf49b09e2fec63a8531, type: 3}
   isConsumable: 1

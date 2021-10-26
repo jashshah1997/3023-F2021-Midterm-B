@@ -16,5 +16,6 @@ MonoBehaviour:
   description: Good for grabbing fruit from high up in a tree
   width: 1
   height: 3
+  PrefabName: 1x3 Variant
   icon: {fileID: 3086127856582126958, guid: 0657a0b2892d4cf49b09e2fec63a8531, type: 3}
   isConsumable: 1

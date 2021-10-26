@@ -16,5 +16,6 @@ MonoBehaviour:
   description: To protect yourself!
   width: 2
   height: 2
+  PrefabName: 2x2 Variant
   icon: {fileID: -4339074186385428672, guid: 0657a0b2892d4cf49b09e2fec63a8531, type: 3}
   isConsumable: 1
