@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class ItemSlot : MonoBehaviour
 {
     public Item itemInSlot = null;
+    public int grid_x = -1;
+    public int grid_y = -1;
 
     [SerializeField]
     private int itemCount = 0;

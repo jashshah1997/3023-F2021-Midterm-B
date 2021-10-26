@@ -11,7 +11,7 @@ public class ItemBehaviour : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("Begin Drag");
+        Debug.Log("Begin Drag " + gameObject.name);
         lastMousePosition = eventData.position;
         objectLastPosition = gameObject.transform.position;
     }
@@ -28,8 +28,12 @@ public class ItemBehaviour : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("End Drag");
-        gameObject.transform.position = objectLastPosition;
+        Debug.Log("End Drag " + gameObject.name);
+
+        bool added = gameObject.GetComponentInParent<InventoryBehaviour>().FitToGrid(itemSlot);
+
+        // Reset position if not added
+        if (!added) gameObject.transform.position = objectLastPosition;
     }
 
     // Start is called before the first frame update
