@@ -16,21 +16,21 @@ public class InventoryBehaviour : MonoBehaviour
 
     [SerializeField]
     Vector2Int GridDimensions = new Vector2Int(6, 6);
-    float width;
-    float height;
+    float CellWidth;
+    float CellHeight;
 
     public GridSlot[,] slotArray;
-    public bool isMirrored = false;
+    public bool isContainer = false;
     
-    private LinkedList<GameObject> items;
+    public LinkedList<GameObject> items;
     private float invert = 1;
     Vector3 gridOffset = new Vector3(20, -20, 0);
 
     void Start()
     {
         GridLayoutGroup lg = GetComponent<GridLayoutGroup>();
-        width = lg.cellSize.x;
-        height = lg.cellSize.y;
+        CellWidth = lg.cellSize.x;
+        CellHeight = lg.cellSize.y;
 
         // Initialize Grid positions and indices
         slotArray = new GridSlot[GridDimensions.x, GridDimensions.y];
@@ -39,20 +39,20 @@ public class InventoryBehaviour : MonoBehaviour
             for (int x_cell = 0; x_cell < GridDimensions.x; x_cell++)
             {
                 GameObject newObject = Instantiate(itemSlotPrefab, this.transform);
-                newObject.GetComponent<GridSlot>().x = x_cell * width + width / 2;
+                newObject.GetComponent<GridSlot>().x = x_cell * CellWidth + CellWidth / 2;
 
-                if (isMirrored)
+                if (isContainer)
                 {
-                    newObject.GetComponent<GridSlot>().x = (GridDimensions.x - 1 - x_cell) * width + width / 2;
+                    newObject.GetComponent<GridSlot>().x = (GridDimensions.x - 1 - x_cell) * CellWidth + CellWidth / 2;
                 }
-                newObject.GetComponent<GridSlot>().y = y_cell * height + height / 2;
+                newObject.GetComponent<GridSlot>().y = y_cell * CellHeight + CellHeight / 2;
                 newObject.GetComponent<GridSlot>().x_idx = x_cell;
                 newObject.GetComponent<GridSlot>().y_idx = y_cell;
                 slotArray[x_cell, y_cell] = newObject.GetComponent<GridSlot>();
             }
         }
 
-        if (isMirrored)
+        if (isContainer)
         {
             invert = -1f;
             gridOffset.x = gridOffset.x * (-1f);
@@ -64,6 +64,7 @@ public class InventoryBehaviour : MonoBehaviour
         AddPrefab("Assets/1x3 Variant.prefab", 1, 1);
         AddPrefab("Assets/2x2 Variant.prefab", 3, 0);
     }
+
     private void AddPrefab(string name, int x, int y)
     {
         // Instantiate object
@@ -77,7 +78,7 @@ public class InventoryBehaviour : MonoBehaviour
         // Calculate object offset due to size
         float obj_height = obj.GetComponent<ItemSlot>().itemInSlot.height / 2f - 0.5f;
         float obj_width = obj.GetComponent<ItemSlot>().itemInSlot.width / 2f - 0.5f;
-        Vector3 obj_offset = new Vector3(obj_width * width, -obj_height * height, 0);
+        Vector3 obj_offset = new Vector3(obj_width * CellWidth, -obj_height * CellHeight, 0);
 
         // Transform object to the correct spot
         obj.transform.localPosition = new Vector3(invert * slotArray[x, y].x, -slotArray[x, y].y, 0) + gridOffset + obj_offset;
@@ -94,26 +95,35 @@ public class InventoryBehaviour : MonoBehaviour
         Debug.Log(name + " inserted to grid");
     }
 
-    public bool FitToGrid(ItemSlot itemSlot)
+    public bool FitToGrid(ItemSlot itemSlot, bool fromOtherInventory = false)
     {
         // Calculate Grid positions
         float obj_height = itemSlot.itemInSlot.height / 2f - 0.5f;
         float obj_width = itemSlot.itemInSlot.width / 2f - 0.5f;
-        Vector3 obj_offset = new Vector3(obj_width * width, -obj_height * height, 0);
+        Vector3 obj_offset = new Vector3(obj_width * CellWidth, -obj_height * CellHeight, 0);
         Vector3 gridPos = itemSlot.transform.localPosition - obj_offset - gridOffset;
 
-        int grid_x = (int)Mathf.Floor(invert * gridPos.x / width);
-        int grid_y = (int)Mathf.Floor(- gridPos.y / height);
+        int grid_x = (int)Mathf.Floor(invert * gridPos.x / CellWidth);
+        int grid_y = (int)Mathf.Floor(- gridPos.y / CellHeight);
 
-        if (isMirrored)
+        if (isContainer)
         {
             grid_x = GridDimensions.x - 1 - grid_x;
         }
 
+        if (grid_x < 0 || grid_x > GridDimensions.x - 1 ||
+            grid_y < 0 || grid_y > GridDimensions.y - 1)
+        {
+            return false;
+        }
+
         Debug.Log("Dragged grid: " + grid_x + " , " + grid_y);
 
-        // Unset occupancy for object
-        SetOccupied(itemSlot.grid_x, itemSlot.grid_y, itemSlot.itemInSlot.width, itemSlot.itemInSlot.height, false);
+        if (!fromOtherInventory)
+        {
+            // Unset occupancy for object if items if from the same inventory
+            SetOccupied(itemSlot.grid_x, itemSlot.grid_y, itemSlot.itemInSlot.width, itemSlot.itemInSlot.height, false);
+        }
         bool check = IsOccupied(grid_x, grid_y, itemSlot.itemInSlot.width, itemSlot.itemInSlot.height);
         if (check)
         {
@@ -134,6 +144,12 @@ public class InventoryBehaviour : MonoBehaviour
         {
             for (int j = y; j < y + obj_height; j++)
             {
+                if (i < 0 || i > GridDimensions.x - 1 ||
+                    j < 0 || j > GridDimensions.y - 1)
+                {
+                    return true;
+                }
+
                 if (slotArray[i, j].occupied)
                 {
                     return true;
@@ -144,13 +160,12 @@ public class InventoryBehaviour : MonoBehaviour
         return false;
     }
 
-    private void SetOccupied(int x, int y, int obj_width, int obj_height, bool value)
+    public void SetOccupied(int x, int y, int obj_width, int obj_height, bool value)
     {
         for (int i = x; i < x + obj_width; i++)
         {
             for (int j = y; j < y + obj_height; j++)
             {
-                Debug.Log("Set " + i + " , " + j + " occupied");
                 slotArray[i, j].occupied = value;
             }
         }
