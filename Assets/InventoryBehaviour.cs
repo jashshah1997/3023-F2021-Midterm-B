@@ -59,18 +59,36 @@ public class InventoryBehaviour : MonoBehaviour
         }
 
         items = new LinkedList<GameObject>();
-        AddPrefab("Assets/ItemInstance.prefab", 0, 0);
-        AddPrefab("Assets/1x2 Variant.prefab", 0, 1);
-        AddPrefab("Assets/1x3 Variant.prefab", 1, 1);
-        AddPrefab("Assets/2x2 Variant.prefab", 3, 0);
+        AddPrefab("Assets/ItemInstance.prefab");
+        AddPrefab("Assets/1x2 Variant.prefab");
+        AddPrefab("Assets/1x3 Variant.prefab");
+        AddPrefab("Assets/2x2 Variant.prefab");
     }
 
-    private void AddPrefab(string name, int x, int y)
+    private void AddPrefab(string name)
     {
         // Instantiate object
         Object prefab = AssetDatabase.LoadAssetAtPath(name, typeof(GameObject));
         GameObject obj = Instantiate(prefab, this.transform) as GameObject;
-        InsertItemInGrid(obj, x, y);
+        InsertItemInGrid(obj);
+    }
+
+    private void InsertItemInGrid(GameObject obj)
+    {
+        int item_width = obj.GetComponent<ItemSlot>().itemInSlot.width;
+        int item_height = obj.GetComponent<ItemSlot>().itemInSlot.height;
+
+        for (int i = 0; i < GridDimensions.x; i++)
+        {
+            for (int j = 0; j < GridDimensions.y; j++)
+            {
+                if (!IsOccupied(i, j, item_width, item_height))
+                {
+                    InsertItemInGrid(obj, i, j);
+                    return;
+                }
+            }
+        }
     }
 
     private void InsertItemInGrid(GameObject obj, int x, int y)
