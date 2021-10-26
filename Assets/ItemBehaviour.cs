@@ -6,12 +6,14 @@ using UnityEngine.EventSystems;
 public class ItemBehaviour : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     private Vector2 lastMousePosition;
+    private Vector2 objectLastPosition;
     private ItemSlot itemSlot;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         Debug.Log("Begin Drag");
         lastMousePosition = eventData.position;
+        objectLastPosition = gameObject.transform.position;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -27,6 +29,7 @@ public class ItemBehaviour : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     public void OnEndDrag(PointerEventData eventData)
     {
         Debug.Log("End Drag");
+        gameObject.transform.position = objectLastPosition;
     }
 
     // Start is called before the first frame update

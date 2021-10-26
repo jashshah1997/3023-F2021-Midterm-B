@@ -6,7 +6,7 @@ using UnityEditor;
 
 // Instantiates prefabs to fill a grid
 [RequireComponent(typeof(GridLayout))]
-public class ItemSlotGridDimensioner : MonoBehaviour
+public class InventoryBehaviour : MonoBehaviour
 {
     [SerializeField]
     GameObject itemSlotPrefab;
