@@ -14,6 +14,9 @@ public class ItemBehaviour : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         Debug.Log("Begin Drag " + gameObject.name);
         lastMousePosition = eventData.position;
         objectLastPosition = gameObject.transform.position;
+
+        // Notify parent container that child started moving
+        gameObject.GetComponentInParent<InventoryBehaviour>().ChildMoving(gameObject);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -33,6 +36,7 @@ public class ItemBehaviour : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         // Check if it fits to parent container
         InventoryBehaviour parentInventory = gameObject.GetComponentInParent<InventoryBehaviour>();
         bool added_to_parent = parentInventory.FitToGrid(itemSlot);
+
         if (added_to_parent)
         {
             // All Done!

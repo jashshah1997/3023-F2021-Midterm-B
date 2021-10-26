@@ -95,6 +95,13 @@ public class InventoryBehaviour : MonoBehaviour
         Debug.Log(name + " inserted to grid");
     }
 
+    public void ChildMoving(GameObject obj)
+    {
+        // When child is moving set it as most visible
+        canvas.transform.SetAsLastSibling();
+        obj.transform.SetAsLastSibling();
+    }
+
     public bool FitToGrid(ItemSlot itemSlot, bool fromOtherInventory = false)
     {
         // Calculate Grid positions
