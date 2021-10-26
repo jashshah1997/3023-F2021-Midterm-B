@@ -22,7 +22,7 @@ public class Inventory : MonoBehaviour
         InventoryBehaviour inv = containerCanvas.GetComponentInChildren<InventoryBehaviour>();
         foreach(Item item in containerHandler.containerItems)
         {
-            inv.AddPrefab("Assets/" + item.PrefabName + ".prefab");
+            inv.AddPrefab(item.PrefabName);
         }
     }
 

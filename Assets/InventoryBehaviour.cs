@@ -62,17 +62,18 @@ public class InventoryBehaviour : MonoBehaviour
 
         if (!isContainer)
         {
-            AddPrefab("Assets/ItemInstance.prefab");
-            AddPrefab("Assets/1x2 Variant.prefab");
-            AddPrefab("Assets/1x3 Variant.prefab");
-            AddPrefab("Assets/2x2 Variant.prefab");
+            AddPrefab("ItemInstance");
+            AddPrefab("1x2 Variant");
+            AddPrefab("1x3 Variant");
+            AddPrefab("2x2 Variant");
         }
     }
 
     public void AddPrefab(string name)
     {
         // Instantiate object
-        Object prefab = AssetDatabase.LoadAssetAtPath(name, typeof(GameObject));
+        
+        Object prefab = Resources.Load(name, typeof(GameObject));
         GameObject obj = Instantiate(prefab, this.transform) as GameObject;
         InsertItemInGrid(obj);
     }
